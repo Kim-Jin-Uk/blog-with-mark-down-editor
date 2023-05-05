@@ -4,16 +4,13 @@
  * @created 23-05-03
  * @updated 23-05-03
  */
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { parseMarkdown } from "@/utils/markdown";
 import { useDebounce } from "@/utils/hooks/customHooks";
-import { markdownAddStyleMap, markdownSetStyleMap } from "../constants";
+import {
+  markdownAddStyleMap,
+  markdownSetStyleMap,
+} from "../../constants/components";
 
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState("");

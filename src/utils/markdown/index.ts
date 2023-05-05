@@ -5,8 +5,8 @@
  * @updated 23-05-03
  */
 
-import { convertMarkdownToCodeBlock } from "./toCodeBlock";
-import { convertMarkdownToLink } from "./toLink";
+import { convertCodeBlock } from "./toCodeBlock";
+import { convertLink } from "./toLink";
 import { convertMarkdownToList } from "./toList";
 import {
   convertMarkdownToInlineCode,
@@ -46,12 +46,12 @@ const convertMarkdownToHtml = (
 export const parseMarkdown = (markdown: string): string => {
   const html = convertMarkdownToHtml(
     markdown,
-    convertMarkdownToCodeBlock,
+    convertCodeBlock,
     convertMarkdownToInlineCode,
     convertMarkdownToList,
     convertMarkdownToTable,
     convertMarkdownToHorizontalRule,
-    convertMarkdownToLink,
+    convertLink,
     convertMarkdownToImg,
     convertMarkdownToQuote,
     convertMarkdownToSimpleTag
