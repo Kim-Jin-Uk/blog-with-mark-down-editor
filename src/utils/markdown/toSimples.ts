@@ -5,6 +5,9 @@
  * @created 23-05-03
  * @updated 23-05-03
  */
+
+import { headerReg } from "@/constants/utils";
+
 /**
  * 마크다운 내부의 (h, strong, em, a, br) 태그 형식을 HTML로 변환하는 함수
  * @param markdown 변환할 마크다운
@@ -13,11 +16,11 @@
 export const convertMarkdownToSimpleTag = (markdown: string): string => {
   const html = markdown
     // # 제목 태그 변환
-    .replace(/^#\s(.*)$/gm, "<h1>$1</h1>")
+    .replace(headerReg(1), "<h1>$1</h1>")
     // ## 제목 태그 변환
-    .replace(/^##\s(.*)$/gm, "<h2>$1</h2>")
+    .replace(headerReg(2), "<h2>$1</h2>")
     // ### 제목 태그 변환
-    .replace(/^###\s(.*)$/gm, "<h3>$1</h3>")
+    .replace(headerReg(3), "<h3>$1</h3>")
     // 볼드체 변환
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     // 이탤릭체 변환

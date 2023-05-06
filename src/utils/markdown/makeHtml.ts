@@ -42,7 +42,15 @@ export const makeCodeBlockTagFor = (
   const HTML = `<pre class="code-block"><code class="${lang}">${innerCode}</code></pre>`;
   return HTML;
 };
-
+/**
+ * 링크 주소, 제목, 내용, 대체 텍스트를 입력받아 HTML형태로 변환
+ *
+ * @param href
+ * @param tile
+ * @param contents
+ * @param head link를 설명하는 문구
+ * @returns 변환된 HTML
+ */
 export const linkConverterFor = (
   href: string = "",
   tile: string = "",
@@ -52,3 +60,21 @@ export const linkConverterFor = (
   const HTML = `${head}<a href="${href}" title="${tile}">${contents}</a>`;
   return HTML;
 };
+/**
+ *  before, tag, value를 입력받아 HTML형태로 변환
+ *
+ * @param before 이전 리스트를 닫는 문자열
+ * @param tag 현재 태그이름
+ * @param value 태그의 값
+ * @returns 변환된 HTML
+ */
+export const listConverterFor = (
+  before: string = "",
+  tag: string = "",
+  value: string
+) => {
+  const HTML = `${before}${tag}<li>${value}</li>`;
+  return HTML;
+};
+
+export const headConverterFor = (headNums: number[]) => {};

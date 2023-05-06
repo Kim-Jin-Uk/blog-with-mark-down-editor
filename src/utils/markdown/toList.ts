@@ -5,7 +5,9 @@
  * @created 23-05-03
  * @updated 23-05-03
  */
+import { orderedListReg, unOrderedListReg } from "@/constants/utils";
 import { ListNode } from "./types";
+import { listConverterFor } from "./makeHtml";
 /**
  * 직전 리스트 아이템과 현재 리스트 아이템의 깊이가 동일한 경우를 처리하는 함수
  * @param html 변환중인 HTML
@@ -21,11 +23,11 @@ const handleSameDepthItems = (
   node: ListNode
 ): string => {
   // case 1-1 직전 아이템과 태그 형식이 동일한 경우
-  if (node.tag === prev.tag) html += `<li>${node.value}</li>`;
+  if (node.tag === prev.tag) html += listConverterFor("", "", node.value);
   // case 1-1 직전 아이템과 태그 형식이 다른 경우
   else {
     // 직전 아이템의 태그를 닫아주고 최상위 항목을 현재 아이템으로 교체 한다
-    html += `</${prev.tag}><${node.tag}><li>${node.value}</li>`;
+    html += listConverterFor(`</${prev.tag}>`, `<${node.tag}>`, node.value);
     stack.pop();
     stack.push(node);
   }
@@ -49,7 +51,7 @@ const convertNodeToList = (nodes: ListNode[]): string => {
         liOfDepth += "<ul>";
         stack.push({ depth: i, tag: "ul", value: "" });
       }
-      html += `${liOfDepth}<${node.tag}><li>${node.value}</li>`;
+      html += listConverterFor(liOfDepth, `<${node.tag}>`, node.value);
       continue;
     }
     let prev = stack.at(-1) as ListNode;
@@ -64,7 +66,7 @@ const convertNodeToList = (nodes: ListNode[]): string => {
         liOfDiffDepth += "<ul>";
         stack.push({ depth: i + prev.depth, tag: "ul", value: "" });
       }
-      html += `${liOfDiffDepth}<${node.tag}><li>${node.value}</li>`;
+      html += listConverterFor(liOfDiffDepth, `<${node.tag}>`, node.value);
       stack.push(node);
     }
     // case 3 직전 아이템 보다 깊이가 얕아진 경우
@@ -92,9 +94,9 @@ const convertNodeToList = (nodes: ListNode[]): string => {
  * @param markdown 변환할 마크다운
  * @returns 변환된 HTML
  */
-export const convertMarkdownToList = (markdown: string): string => {
-  const convertedtabMarkdown = markdown.replace(/\t/g, "    ");
-  const lines = convertedtabMarkdown.split("\n");
+export const convertList = (markdown: string): string => {
+  const convertedTab = markdown.replace(/\t/g, "    ");
+  const lines = convertedTab.split("\n");
   // 리스트 아이템 요소인지를 판별
   let inList = false;
   // 리스트 아이템 요소를 저장
@@ -107,12 +109,14 @@ export const convertMarkdownToList = (markdown: string): string => {
     const indent = Math.ceil(line.search(/\S/) / 4);
     // 불필요한 공백 제거
     const trimmedLine = line.trim();
-    if (/^[-+*]\s+/.test(trimmedLine) || /^\d+\.\s+/.test(trimmedLine)) {
+    const isUnOrdered = unOrderedListReg.test(trimmedLine);
+    const isOrdered = orderedListReg.test(trimmedLine);
+    if (isUnOrdered || isOrdered) {
       // 리스트 아이템 형식이라면 리스트 노드 생성 및 배열에 담아주기
       const node: ListNode = {
         depth: indent,
-        tag: /^[-+*]\s+/.test(trimmedLine) ? "ul" : "ol",
-        value: /^[-+*]\s+/.test(trimmedLine)
+        tag: isUnOrdered ? "ul" : "ol",
+        value: isUnOrdered
           ? trimmedLine.slice(2)
           : trimmedLine.slice(trimmedLine.indexOf(".") + 2),
       };

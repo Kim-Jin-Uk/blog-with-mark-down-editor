@@ -21,6 +21,17 @@ export const propertyLinkReg = /\[([^\]]+)\]:\s*(\S+)(?:\s+"([^"]+)")?/g;
 /** URL 형태 */
 export const urlLinkReg = /(^|[^"])(https?:\/\/\S+)/g;
 
+// list
+/** ul */
+export const unOrderedListReg = /^[-+*]\s+/;
+/** ol */
+export const orderedListReg = /^\d+\.\s+/;
+
+// simple
+/** h1 */
+export const headerReg = (headNum: number) =>
+  new RegExp(`^${"#".repeat(headNum)}\\s(.*)$`, "gm");
+
 /** classname 상수 */
 export const codeBlockClass = "code-block";
 export const funcClass = "code-func";

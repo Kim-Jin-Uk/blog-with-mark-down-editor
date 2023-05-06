@@ -7,14 +7,14 @@
 
 import { convertCodeBlock } from "./toCodeBlock";
 import { convertLink } from "./toLink";
-import { convertMarkdownToList } from "./toList";
+import { convertList } from "./toList";
 import {
   convertMarkdownToInlineCode,
   convertMarkdownToHorizontalRule,
   convertMarkdownToImg,
   convertMarkdownToSimpleTag,
 } from "./toSimples";
-import { convertMarkdownToQuote } from "./toQuote";
+import { convertQuote } from "./toQuote";
 import { convertMarkdownToTable } from "./toTable";
 
 /**
@@ -48,12 +48,12 @@ export const parseMarkdown = (markdown: string): string => {
     markdown,
     convertCodeBlock,
     convertMarkdownToInlineCode,
-    convertMarkdownToList,
+    convertList,
     convertMarkdownToTable,
     convertMarkdownToHorizontalRule,
     convertLink,
     convertMarkdownToImg,
-    convertMarkdownToQuote,
+    convertQuote,
     convertMarkdownToSimpleTag
   );
   return html;

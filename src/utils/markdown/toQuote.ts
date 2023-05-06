@@ -10,8 +10,8 @@
  * @param markdown 변환할 마크다운
  * @returns 변환된 HTML
  */
-export const convertMarkdownToQuote = (markdown: string): string => {
-  let lines = markdown.split("\n");
+export const convertQuote = (markdown: string): string => {
+  const lines = markdown.split("\n");
   let html = "";
   let nestedQuoteLevel = 0;
   let currentQuoteLevel = 0;
