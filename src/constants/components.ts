@@ -1,18 +1,4 @@
 export const markdownAddStyleMap: Map<string, string> = new Map([
-  ["h1", "\n# Header"],
-  ["h2", "\n## Header"],
-  ["h3", "\n### Header3"],
-  ["strong", "**Bold**"],
-]);
-export const markdownSetStyleMap: Map<string, string[]> = new Map([
-  ["h1", ["\n# ", "\n"]],
-  ["h2", ["\n## ", "\n"]],
-  ["h3", ["\n## ", "\n"]],
-  ["strong", ["**", "**"]],
-]);
-
-/**
- * export const markdownAddStyleMap: Map<string, string> = new Map([
   ["H1", "\n# Header"],
   ["H2", "\n## Header"],
   ["H3", "\n### Header3"],
@@ -21,6 +7,13 @@ export const markdownSetStyleMap: Map<string, string[]> = new Map([
   ["<->", "`Inline Code`"],
   ["---", "\n---\n"],
   ["Image", "![Image Title](https://test.image.com)"],
+  ["Link", "[Link Title](https://test.link.com)"],
+  ["Block", "\n> Block Quote"],
+  ["Code", "\n```\nCode Block\n```\n"],
+  [
+    "Table",
+    "\n| head1 | head2 | head3 |\n| :-: | :-: | :-: |\n| row1 | row2 | row3 |\n",
+  ],
 ]);
 export const markdownSetStyleMap: Map<string, string[]> = new Map([
   ["H1", ["\n# ", "\n"]],
@@ -29,5 +22,6 @@ export const markdownSetStyleMap: Map<string, string[]> = new Map([
   ["Bold", ["**", "**"]],
   ["Italic", ["_", "_"]],
   ["<->", ["`", "`"]],
+  ["Block", ["\n> ", ""]],
+  ["Code", ["\n```\n", "\n```\n"]],
 ]);
-  */
