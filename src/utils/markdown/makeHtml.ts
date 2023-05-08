@@ -77,4 +77,27 @@ export const listConverterFor = (
   return HTML;
 };
 
-export const headConverterFor = (headNums: number[]) => {};
+/** header */
+export const getHeaderRegFor = (headNum: number): RegExp =>
+  new RegExp(`^${"#".repeat(headNum)}\\s(.*)$`, "gm");
+
+export const headConverterFor = (before: string, headNums: number[]) => {
+  let HTML = before;
+  for (const headNum of headNums) {
+    HTML = HTML.replace(
+      getHeaderRegFor(headNum),
+      `<h${headNum}>$1</h${headNum}>`
+    );
+  }
+  return HTML;
+};
+
+export const makeTableRow = (
+  align: string,
+  value: string,
+  isHeader: boolean
+) => {
+  return `<t${isHeader ? "h" : "d"} style="text-align: ${align}">${value}</t${
+    isHeader ? "h" : "d"
+  }>`;
+};

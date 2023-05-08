@@ -5,6 +5,10 @@
  * @created 23-05-03
  * @updated 23-05-03
  */
+
+import { tableReg } from "@/constants/utils";
+import { makeTableRow } from "./makeHtml";
+
 /**
  * align 표현식을 실제 text-align에 넣을 값으로 변환하는 함수
  * @param input 사용자로 부터 입력받은 align값 (':--', ':-:', '--:' 등)
@@ -21,8 +25,8 @@ const convertAlignFormatToStyle = (format: string): string => {
  * @param markdown 변환할 마크다운
  * @returns 변환된 HTML
  */
-export const convertMarkdownToTable = (markdown: string): string => {
-  const html = markdown.replace(/^((\|.*\|)\s*\n)+/gm, (match: string) => {
+export const convertTable = (markdown: string): string => {
+  const html = markdown.replace(tableReg, (match: string) => {
     match = match.trim();
     const rows = match.split("\n");
     // 헤더, 구분선, 데이터 영역을 분리
@@ -32,9 +36,7 @@ export const convertMarkdownToTable = (markdown: string): string => {
     // 헤더부 변환
     let html = "<table><thead><tr>";
     header.forEach((cell, i) => {
-      html += `<th style="text-align: ${convertAlignFormatToStyle(
-        align[i]
-      )}">${cell}</th>`;
+      html += makeTableRow(convertAlignFormatToStyle(align[i]), cell, true);
     });
     html += "</tr></thead><tbody>";
 
@@ -42,9 +44,7 @@ export const convertMarkdownToTable = (markdown: string): string => {
     data.forEach((row) => {
       html += "<tr>";
       row.forEach((cell, i) => {
-        html += `<td style="text-align: ${convertAlignFormatToStyle(
-          align[i]
-        )}">${cell}</td>`;
+        html += makeTableRow(convertAlignFormatToStyle(align[i]), cell, false);
       });
       html += "</tr>";
     });

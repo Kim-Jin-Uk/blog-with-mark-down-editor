@@ -18,12 +18,6 @@ const MarkdownEditor = () => {
   const [innerHtml, setInnerHtml] = useState("");
   const markdownTextArea: React.MutableRefObject<HTMLTextAreaElement | null> =
     useRef(null);
-  const addStyleButtonMap = new Map<string, string>([
-    ["h1", "H1"],
-    ["h2", "H2"],
-    ["h3", "H3"],
-    ["strong", "Bold"],
-  ]);
 
   const setMarkdownTextAreaSelection = (newCursorPosition: number) => {
     // setMarkdown은 비동기 이므로 리페인트 이전에 호출되는 requestAnimationFrame을 통해 커서 위치를 조정
@@ -37,7 +31,7 @@ const MarkdownEditor = () => {
 
   const setStyle = useCallback(
     (styleKey: string, start: number, end: number) => {
-      if (!markdownSetStyleMap.has(styleKey)) return;
+      if (!markdownSetStyleMap.has(styleKey)) return false;
       const [addStyleStart, addStyleEnd] = markdownSetStyleMap.get(
         styleKey
       ) as string[];
@@ -48,18 +42,19 @@ const MarkdownEditor = () => {
       const newCursorPosition =
         end + addStyleStart?.length + addStyleEnd?.length;
       setMarkdownTextAreaSelection(newCursorPosition);
+      return true;
     },
     [markdown]
   );
 
   const addStyle = useCallback(
-    (styleKey: string) => {
-      if (!markdownAddStyleMap.has(styleKey)) return;
-      const styleText = markdownAddStyleMap.get(styleKey) as string;
+    (key: string) => {
+      const styleText = markdownAddStyleMap.get(key) as string;
       const textarea = markdownTextArea.current as HTMLTextAreaElement;
       const { selectionStart, selectionEnd } = textarea;
       if (selectionStart !== selectionEnd) {
-        return setStyle(styleKey, selectionStart, selectionEnd);
+        const isSetStyle = setStyle(key, selectionStart, selectionEnd);
+        if (isSetStyle) return;
       }
       const newMarkdown = `${markdown.substring(
         0,
@@ -93,10 +88,10 @@ const MarkdownEditor = () => {
 
   const renderAddStyleButtons = (): JSX.Element[] => {
     const addStyleButtons: JSX.Element[] = [];
-    addStyleButtonMap.forEach((text, key) => {
+    markdownAddStyleMap.forEach((_, key) => {
       const addStyleButton = (
         <button key={key} onClick={() => addStyle(key)}>
-          {text}
+          {key}
         </button>
       );
       addStyleButtons.push(addStyleButton);

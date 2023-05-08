@@ -9,13 +9,13 @@ import { convertCodeBlock } from "./toCodeBlock";
 import { convertLink } from "./toLink";
 import { convertList } from "./toList";
 import {
-  convertMarkdownToInlineCode,
-  convertMarkdownToHorizontalRule,
-  convertMarkdownToImg,
-  convertMarkdownToSimpleTag,
+  convertInlineCode,
+  convertHorizontalRule,
+  convertImg,
+  convertSimpleTag,
 } from "./toSimples";
 import { convertQuote } from "./toQuote";
-import { convertMarkdownToTable } from "./toTable";
+import { convertTable } from "./toTable";
 
 /**
  * 마크다운을 HTML 형태로 변환하는 함수
@@ -47,14 +47,14 @@ export const parseMarkdown = (markdown: string): string => {
   const html = convertMarkdownToHtml(
     markdown,
     convertCodeBlock,
-    convertMarkdownToInlineCode,
+    convertInlineCode,
     convertList,
-    convertMarkdownToTable,
-    convertMarkdownToHorizontalRule,
+    convertTable,
+    convertHorizontalRule,
+    convertImg,
     convertLink,
-    convertMarkdownToImg,
     convertQuote,
-    convertMarkdownToSimpleTag
+    convertSimpleTag
   );
   return html;
 };
