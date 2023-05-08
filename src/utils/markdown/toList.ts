@@ -3,7 +3,7 @@
  * @description 리스트 형식을 HTML로 변환하는 기능을 수행합니다
  * @convertCase ul, ol, li
  * @created 23-05-03
- * @updated 23-05-03
+ * @updated 23-05-08
  */
 import { orderedListReg, unOrderedListReg } from "@/constants/utils";
 import { ListNode } from "./types";

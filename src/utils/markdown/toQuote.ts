@@ -3,7 +3,7 @@
  * @description 인용구 형식을 HTML로 변환하는 기능을 수행합니다
  * @convertCase blockquote
  * @created 23-05-03
- * @updated 23-05-03
+ * @updated 23-05-08
  */
 /**
  * 마크다운 내부의 인용구 형식을 HTML로 변환하는 함수

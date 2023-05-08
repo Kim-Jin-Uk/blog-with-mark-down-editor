@@ -1,4 +1,10 @@
 /**
+ * @copyright 김진욱
+ * @description 마크다운 변환 함수에서 사용할 HTML로 변환하는 기능을 수행합니다
+ * @created 23-05-08
+ * @updated 23-05-08
+ */
+/**
  * replaceValue에 새로운 span 태그를 추가해준다
  *
  * @param beforeValue 기존 replaceValue
@@ -77,10 +83,21 @@ export const listConverterFor = (
   return HTML;
 };
 
-/** header */
+/**
+ * Header 숫자를 입력받아 그에 맞는 정규식 리턴
+ *
+ * @param headNum Header 숫자
+ * @returns 헤더에 맞는 정규식
+ */
 export const getHeaderRegFor = (headNum: number): RegExp =>
   new RegExp(`^${"#".repeat(headNum)}\\s(.*)$`, "gm");
-
+/**
+ * Header을 감짛서 HTML 형태로 변환
+ *
+ * @param before 원본 문자열
+ * @param headNums 변환할 Header태그들의 숫자 배열
+ * @returns 변환된 HTML
+ */
 export const headConverterFor = (before: string, headNums: number[]) => {
   let HTML = before;
   for (const headNum of headNums) {
@@ -91,13 +108,21 @@ export const headConverterFor = (before: string, headNums: number[]) => {
   }
   return HTML;
 };
-
+/**
+ * 정렬방식, 내부 값, 헤더 여부를 입력받아 row형태의 HTML을 생성하는 함수
+ *
+ * @param align 정렬 방식
+ * @param value cell의 값
+ * @param isHeader header 여부
+ * @returns 변환된 row 형태의 HTML
+ */
 export const makeTableRow = (
   align: string,
   value: string,
   isHeader: boolean
 ) => {
-  return `<t${isHeader ? "h" : "d"} style="text-align: ${align}">${value}</t${
+  const HTML = `<t${
     isHeader ? "h" : "d"
-  }>`;
+  } style="text-align: ${align}">${value}</t${isHeader ? "h" : "d"}>`;
+  return HTML;
 };
