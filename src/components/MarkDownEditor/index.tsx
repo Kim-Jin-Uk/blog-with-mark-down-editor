@@ -2,7 +2,7 @@
  * @copyright 김진욱
  * @description 사용자의 입력중 마크다운 형식에 대해 그에 상응하는 HTML을 렌더링 합니다
  * @created 23-05-03
- * @updated 23-05-08
+ * @updated 23-05-12
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { parseMarkdown } from "@/utils/markdown";
@@ -19,14 +19,14 @@ const MarkdownEditor = () => {
   const markdownTextArea: React.MutableRefObject<HTMLTextAreaElement | null> =
     useRef(null);
   /**
-   * 마크다운 텍스트 에디터의 Selection 위치를 조절
+   * 마크다운 텍스트 에디터의 Selection 위치를 조절, Scroll 위치를 최신화
    *
    * @param newCursorPosition 변경시킬 포지션
    */
   const setMarkdownTextAreaSelection = (newCursorPosition: number) => {
-    // setMarkdown은 비동기 이므로 리페인트 이전에 호출되는 requestAnimationFrame을 통해 커서 위치를 조정
     const textarea = markdownTextArea.current as HTMLTextAreaElement;
 
+    // setMarkdown은 비동기 이므로 리페인트 이전에 호출되는 requestAnimationFrame을 통해 커서 위치를 조정
     requestAnimationFrame(() => {
       textarea.focus();
       textarea.selectionStart = newCursorPosition;
@@ -41,13 +41,17 @@ const MarkdownEditor = () => {
   const setStyle = useCallback(
     (styleKey: string, start: number, end: number) => {
       if (!markdownSetStyleMap.has(styleKey)) return false;
+
       const [addStyleStart, addStyleEnd] = markdownSetStyleMap.get(
         styleKey
       ) as string[];
+
       const newMarkdown = `${markdown.substring(0, start)}${
         addStyleStart + markdown.substring(start, end) + addStyleEnd
       }${markdown.substring(end)}`;
+
       setMarkdown(newMarkdown);
+
       const newCursorPosition =
         end + addStyleStart?.length + addStyleEnd?.length;
       setMarkdownTextAreaSelection(newCursorPosition);
@@ -63,15 +67,19 @@ const MarkdownEditor = () => {
       const styleText = markdownAddStyleMap.get(key) as string;
       const textarea = markdownTextArea.current as HTMLTextAreaElement;
       const { selectionStart, selectionEnd } = textarea;
+
       if (selectionStart !== selectionEnd) {
         const isSetStyle = setStyle(key, selectionStart, selectionEnd);
         if (isSetStyle) return;
       }
+
       const newMarkdown = `${markdown.substring(
         0,
         selectionStart
       )}${styleText}${markdown.substring(selectionEnd)}`;
+
       setMarkdown(newMarkdown);
+
       const newCursorPosition = selectionStart + styleText?.length;
       setMarkdownTextAreaSelection(newCursorPosition);
     },
@@ -85,13 +93,17 @@ const MarkdownEditor = () => {
   const tabHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Tab") {
       event.preventDefault();
+
       const textarea = markdownTextArea.current as HTMLTextAreaElement;
       const { selectionStart, selectionEnd } = textarea;
+
       const newMarkdown = `${markdown.substring(
         0,
         selectionStart
       )}\t${markdown.substring(selectionEnd)}`;
+
       setMarkdown(newMarkdown);
+
       const newCursorPosition = selectionStart + 1;
       setMarkdownTextAreaSelection(newCursorPosition);
     }
@@ -106,6 +118,7 @@ const MarkdownEditor = () => {
    */
   const renderAddStyleButtons = (): JSX.Element[] => {
     const addStyleButtons: JSX.Element[] = [];
+
     markdownAddStyleMap.forEach((_, key) => {
       const addStyleButton = (
         <button key={key} onClick={() => addStyle(key)}>
@@ -114,6 +127,7 @@ const MarkdownEditor = () => {
       );
       addStyleButtons.push(addStyleButton);
     });
+
     return addStyleButtons;
   };
 

@@ -1,3 +1,10 @@
+/**
+ * @copyright 김진욱
+ * @description XSS 공격을 감지하고 변환하는 동작을 수행 합니다
+ *
+ * @created 23-05-12
+ * @updated 23-05-12
+ */
 import { BasicObject } from "@/types/main/types";
 
 /** 직접적으로 태그형태를 텍스트로만 인식하도록 변경해주는 매퍼 */
