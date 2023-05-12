@@ -16,6 +16,7 @@ import {
 } from "./toSimples";
 import { convertQuote } from "./toQuote";
 import { convertTable } from "./toTable";
+import { replaceXSS } from "./replaceXSS";
 
 /**
  * 마크다운을 HTML 형태로 변환하는 함수
@@ -46,6 +47,7 @@ const convertMarkdownToHtml = (
 export const parseMarkdown = (markdown: string): string => {
   const html = convertMarkdownToHtml(
     markdown,
+    replaceXSS,
     convertCodeBlock,
     convertInlineCode,
     convertList,

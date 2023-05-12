@@ -26,10 +26,12 @@ const MarkdownEditor = () => {
   const setMarkdownTextAreaSelection = (newCursorPosition: number) => {
     // setMarkdown은 비동기 이므로 리페인트 이전에 호출되는 requestAnimationFrame을 통해 커서 위치를 조정
     const textarea = markdownTextArea.current as HTMLTextAreaElement;
+
     requestAnimationFrame(() => {
       textarea.focus();
       textarea.selectionStart = newCursorPosition;
       textarea.selectionEnd = newCursorPosition;
+      textarea.scrollTop = textarea.scrollHeight;
     });
   };
 
