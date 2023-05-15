@@ -16,7 +16,7 @@ import {
   methodClass,
   consoleReg,
   consoleClass,
-} from "@/constants/utils";
+} from "@/components/MarkDownEditor/utils";
 import { makeCodeBlockTagFor, spanConverterFor } from "./makeHtml";
 
 /**

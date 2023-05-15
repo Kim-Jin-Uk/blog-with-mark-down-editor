@@ -5,8 +5,11 @@
  * @created 23-05-03
  * @updated 23-05-08
  */
-import { orderedListReg, unOrderedListReg } from "@/constants/utils";
-import { ListNode } from "../../types/markdown/types";
+import {
+  orderedListReg,
+  unOrderedListReg,
+} from "@/components/MarkDownEditor/utils";
+import { ListNode } from "../../../../types/markdown/types";
 import { listConverterFor } from "./makeHtml";
 /**
  * 직전 리스트 아이템과 현재 리스트 아이템의 깊이가 동일한 경우를 처리하는 함수

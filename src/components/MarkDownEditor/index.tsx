@@ -5,7 +5,7 @@
  * @updated 23-05-12
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { parseMarkdown } from "@/utils/markdown";
+import { parseMarkdown } from "@/components/MarkDownEditor/utils";
 import { useDebounce } from "@/utils/hooks/customHooks";
 import {
   markdownAddStyleMap,

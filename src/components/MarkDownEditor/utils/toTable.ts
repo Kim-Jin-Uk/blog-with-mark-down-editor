@@ -6,7 +6,7 @@
  * @updated 23-05-08
  */
 
-import { tableReg } from "@/constants/utils";
+import { tableReg } from "@/components/MarkDownEditor/utils";
 import { makeTableRow } from "./makeHtml";
 
 /**

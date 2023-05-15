@@ -11,7 +11,7 @@ import {
   refferenceLinkReg,
   propertyLinkReg,
   urlLinkReg,
-} from "@/constants/utils";
+} from "@/components/MarkDownEditor/utils";
 import { linkConverterFor } from "./makeHtml";
 
 /**
