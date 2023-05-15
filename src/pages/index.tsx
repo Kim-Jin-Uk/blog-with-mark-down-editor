@@ -1,5 +1,5 @@
 import Head from "next/head";
-import MarkdownEditor from "@/components/MarkDownEditor";
+import MarkdownEditor from "C-Markdown/index";
 
 export default function Home() {
   return (
