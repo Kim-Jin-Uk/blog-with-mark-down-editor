@@ -38,10 +38,3 @@ export const imageReg = /!\[([^\]]+)\]\(([^\s]+)(?:\s+"([^"]+)")?\)/gm;
 
 // table
 export const tableReg = /^((\|.*\|)\s*\n)+/gm;
-
-/** classname 상수 */
-export const codeBlockClass = "code-block";
-export const funcClass = "code-func";
-export const classClass = "code-class";
-export const methodClass = "code-method";
-export const consoleClass = "code-console";

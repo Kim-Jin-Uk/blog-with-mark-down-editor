@@ -8,9 +8,9 @@
 import {
   orderedListReg,
   unOrderedListReg,
-} from "@/components/MarkDownEditor/utils";
-import { ListNode } from "../../../../types/markdown/types";
-import { listConverterFor } from "./makeHtml";
+} from "@/components/MarkDownEditor/constants/regExp";
+import { ListNode } from "C-Markdown/types";
+import { listConverterFor } from "C-Markdown/utils/makeHtml";
 /**
  * 직전 리스트 아이템과 현재 리스트 아이템의 깊이가 동일한 경우를 처리하는 함수
  * @param html 변환중인 HTML

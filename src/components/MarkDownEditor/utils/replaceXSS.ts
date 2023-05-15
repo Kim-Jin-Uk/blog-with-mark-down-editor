@@ -5,7 +5,7 @@
  * @created 23-05-12
  * @updated 23-05-12
  */
-import { BasicObject } from "@/types/main/types";
+import { BasicObject } from "@/types";
 
 /** 직접적으로 태그형태를 텍스트로만 인식하도록 변경해주는 매퍼 */
 const tagReplaceMapper: BasicObject<string> = {

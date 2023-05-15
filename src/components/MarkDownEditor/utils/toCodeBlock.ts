@@ -9,15 +9,20 @@
 import {
   codeBlockReg,
   functionReg,
-  funcClass,
   classReg,
-  classClass,
   methodReg,
-  methodClass,
   consoleReg,
+} from "C-Markdown/constants/regExp";
+import {
+  funcClass,
+  classClass,
+  methodClass,
   consoleClass,
-} from "@/components/MarkDownEditor/utils";
-import { makeCodeBlockTagFor, spanConverterFor } from "./makeHtml";
+} from "C-Markdown/constants/className";
+import {
+  makeCodeBlockTagFor,
+  spanConverterFor,
+} from "C-Markdown/utils/makeHtml";
 
 /**
  * 마크다운 내부의 코드 블록 형식을 HTML로 변환하는 함수

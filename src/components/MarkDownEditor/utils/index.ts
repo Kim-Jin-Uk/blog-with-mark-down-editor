@@ -5,18 +5,18 @@
  * @updated 23-05-12
  */
 
-import { convertCodeBlock } from "./toCodeBlock";
-import { convertLink } from "./toLink";
-import { convertList } from "./toList";
+import { convertCodeBlock } from "C-Markdown/utils/toCodeBlock";
+import { convertLink } from "C-Markdown/utils/toLink";
+import { convertList } from "C-Markdown/utils/toList";
 import {
   convertInlineCode,
   convertHorizontalRule,
   convertImg,
   convertSimpleTag,
-} from "./toSimples";
-import { convertQuote } from "./toQuote";
-import { convertTable } from "./toTable";
-import { replaceXSS } from "./replaceXSS";
+} from "C-Markdown/utils/toSimples";
+import { convertQuote } from "C-Markdown/utils/toQuote";
+import { convertTable } from "C-Markdown/utils/toTable";
+import { replaceXSS } from "C-Markdown/utils/replaceXSS";
 
 /**
  * 마크다운을 HTML 형태로 변환하는 함수
