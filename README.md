@@ -1,2 +1,2 @@
 ## 마크다운 기능 설명
-blog-with-mark-down-editor/src/components/MarkDownEditor/utils/MarkDownEditor.md
+[마크다운][./src/components/MarkDownEditor/utils/MarkDownEditor.md]
