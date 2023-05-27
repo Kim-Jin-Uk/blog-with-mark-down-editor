@@ -9,16 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.0.1",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
     "next": "^13.4.0",
-    "node-sass": "^8.0.0",
+    "npm": "^9.6.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass-loader": "^13.2.2",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.0",
     "typescript": "5.0.4"
   }
 }

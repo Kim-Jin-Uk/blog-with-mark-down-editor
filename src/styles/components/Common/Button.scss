@@ -1,0 +1,49 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: $padding-y-base $padding-x-base;
+  border: none;
+  border-radius: $border-radius-base;
+  @include transition--background-color;
+}
+
+.button--main {
+  color: $color-black;
+  background: $color-main;
+  &:hover {
+    background: $color-main-hover;
+  }
+}
+
+.button--black {
+  color: $color-main;
+  background: $color-black;
+  &:hover {
+    background: $color-black-hover;
+  }
+}
+
+.button--black--color-white {
+  color: $color-white;
+}
+
+.button--white {
+  color: $color-black;
+  background: $color-white;
+  &:hover {
+    background: $color-gray;
+  }
+}
+
+.button--white--border {
+  @include border--1px-solid($color-gray);
+}
+
+.button--white--color-red {
+  color: $color-red;
+}
