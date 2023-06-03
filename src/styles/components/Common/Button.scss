@@ -47,3 +47,10 @@
 .button--white--color-red {
   color: $color-red;
 }
+
+.svg--inner-button--height-24px {
+  height: 0px;
+  position: relative;
+  top: -12px;
+  overflow: visible;
+}
