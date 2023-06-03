@@ -18,7 +18,7 @@ import {
   classClass,
   methodClass,
   consoleClass,
-} from "C-Markdown/constants/className";
+} from "@/components/MarkDownEditor/constants/classNames";
 import {
   makeCodeBlockTagFor,
   spanConverterFor,

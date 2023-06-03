@@ -1,6 +1,6 @@
 /**
  * @copyright 김진욱
- * @description 자주 사용되는 커스텀 훅들을 관리
+ * @description 다바운싱 변수를 관리하는 훅
  * @created 23-05-03
  * @updated 23-05-03
  */
@@ -11,13 +11,13 @@ import { useEffect, useState } from "react";
  * @param delay 디바운싱을 적용할 시간
  * @returns 디바운싱이 적용된 변수
  */
-export const useDebounce = <T>(value: T, delay?: number): T => {
+export const useDebounce = <T>(value: T, delay: number = 200): T => {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedValue(value);
-    }, delay || 200);
+    }, delay);
     return () => clearTimeout(timer);
   }, [value, delay]);
 

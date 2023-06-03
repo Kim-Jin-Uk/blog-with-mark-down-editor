@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { ButtonProps } from "./type";
-import { classNames } from "@/utils";
+import { classNames } from "@/components/Common/utils";
 
 const Button = ({
   children,
@@ -14,7 +14,7 @@ const Button = ({
   });
 
   const imageMapper = new Map<string, React.FC<React.SVGProps<SVGSVGElement>>>([
-    ["follow", React.lazy(() => import("../../../images/Follow"))],
+    ["follow", lazy(() => import("../../../images/Follow"))],
   ]);
 
   const SVG = svg && imageMapper.has(svg) && imageMapper.get(svg);
