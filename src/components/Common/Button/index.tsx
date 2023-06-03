@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
-import { ButtonProps } from "./type";
-import { classNames } from "@/components/Common/utils";
+import { ButtonProps } from "../types";
+import { classNames } from "@/components/Common/utils/classNames";
 
 const Button = ({
   children,
