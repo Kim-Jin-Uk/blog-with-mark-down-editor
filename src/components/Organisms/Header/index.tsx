@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Icon from "@/components/Atoms/SVG/Icon";
-import { navMenus } from "./constatnts/navMenus";
+import { navMenus } from "./constants";
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(true);

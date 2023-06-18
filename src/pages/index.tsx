@@ -2,7 +2,7 @@ import Head from "next/head";
 import MarkdownEditor from "@/components/Organisms/MarkDownEditor/index";
 import Button from "@/components/Atoms/Button";
 import Header from "@/components/Organisms/Header";
-import { ButtonClass } from "@/components/Atoms/Button/types";
+import { convertObjectToButtonInterface } from "@/components/Atoms/Button/utils";
 
 export default function Home() {
   const onClickButton = (key: string) => {
@@ -22,7 +22,14 @@ export default function Home() {
         <Button
           onClick={() => onClickButton("main")}
           svg={"follow"}
-          buttonClass={new ButtonClass("round", "blue", "white", false, 28, 14)}
+          buttonInterface={convertObjectToButtonInterface({
+            shape: "round",
+            background: "blue",
+            color: "white",
+            hasBorder: false,
+            height: 28,
+            fontSize: 14,
+          })}
         >
           hello1
         </Button>

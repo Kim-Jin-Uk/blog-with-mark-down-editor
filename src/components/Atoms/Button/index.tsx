@@ -1,17 +1,17 @@
 import React, { lazy, Suspense } from "react";
 import { ButtonProps } from "./types";
-import { classNames } from "@/common/utils";
-import { convertButtonClassToClassName } from "./utils";
+import { convertButtonInterfaceToClassName } from "./utils";
 
 const Button = ({
   children,
-  buttonClass,
+  buttonInterface,
   svg = null,
   onClick = () => "",
 }: ButtonProps) => {
-  const buttonClassNames = convertButtonClassToClassName(buttonClass);
+  const buttonClassNames = convertButtonInterfaceToClassName(buttonInterface);
+
   const classes = ["button", ...buttonClassNames].join(" ");
-  console.log(classes, buttonClassNames, buttonClass);
+
   const imageMapper = new Map<string, React.FC<React.SVGProps<SVGSVGElement>>>([
     ["follow", lazy(() => import("../SVG/Follow"))],
   ]);
