@@ -1,15 +1,34 @@
 /** color */
-$color-main: #33f4a3;
-$color-main-hover: #15c07e;
-$color-black: #1d1d1d;
-$color-black-hover: #404040;
-$color-red: #f43333;
-$color-white: #ffffff;
-$color-gray: #e8e8e8;
+$colors: (
+  "blue": #1e68fa,
+  "black": #1a1e27,
+  "red": #f43333,
+  "white": #ffffff,
+  "gray": #e3e7eb,
+  "disabled": #d2d6da,
+);
 
-$padding-x-base: 20px;
-$padding-y-base: 12px;
+$colors-hover: (
+  "blue": #0034da,
+  "black": #353c49,
+  "white": #f2f4f6,
+);
 
-$border-radius-base: 2px;
+$heights: (
+  "28": 28px,
+  "32": 32px,
+  "36": 36px,
+  "40": 40px,
+  "48": 48px,
+  "56": 56px,
+);
 
+$font-sizes: (
+  "14": 14px,
+  "18": 18px,
+  "20": 20px,
+);
+
+$padding-x-base: 12px;
+$padding-y-base: 5px;
 $font-size-base: 16px;
