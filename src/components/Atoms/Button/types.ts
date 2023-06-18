@@ -5,36 +5,26 @@ export type ButtonShape = "round" | "square";
 export type ButtonBackground = "white" | "black" | "blue";
 export type ButtonTextColor = "black" | "blue" | "red" | "white";
 
-export class ButtonClass extends BasicObject<
-  ButtonShape | ButtonBackground | ButtonTextColor | boolean | number
-> {
-  shape: ButtonShape;
-  background: ButtonBackground;
-  textColor: ButtonTextColor;
-  hasBorder: boolean;
-  height: number;
-  fontSize: number;
-  constructor(
-    shape: ButtonShape | None,
-    background: ButtonBackground | None,
-    textColor: ButtonTextColor | None,
-    hasBorder: boolean | None,
-    height: number | None,
-    fontSize: number | None
-  ) {
-    super();
-    this.shape = shape || "round";
-    this.background = background || "white";
-    this.textColor = textColor || "black";
-    this.hasBorder = hasBorder || false;
-    this.height = height || 28;
-    this.fontSize = fontSize || 14;
-  }
+export type ButtonProperty =
+  | ButtonShape
+  | ButtonBackground
+  | ButtonTextColor
+  | boolean
+  | number
+  | None;
+
+export interface ButtonInterface extends BasicObject<ButtonProperty> {
+  shape: ButtonShape | None;
+  background: ButtonBackground | None;
+  textColor: ButtonTextColor | None;
+  hasBorder: boolean | None;
+  height: number | None;
+  fontSize: number | None;
 }
 
 export interface ButtonProps {
   children: ReactNode;
-  buttonClass: ButtonClass;
+  buttonInterface: ButtonInterface;
   svg?: string | null;
   onClick?: () => void;
 }

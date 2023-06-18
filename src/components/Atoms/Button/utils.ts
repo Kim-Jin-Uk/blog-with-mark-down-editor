@@ -1,19 +1,19 @@
 import { convertCamelToKebabCase } from "@/common/utils";
-import { ButtonClass } from "./types";
+import { ButtonInterface, ButtonProperty } from "./types";
+import { BasicObject } from "@/common/types";
 
 /**
- * ButtonClass를 입력받아 class name 배열을 추출하는 함수
+ * ButtonInterface를 입력받아 class name 배열을 추출하는 함수
  *
- * @param buttonClass 프로퍼티를 추출할 ButtonClass
- * @returns buttonClass로 부터 추출한 class name 배열
+ * @param buttonInterface 프로퍼티를 추출할 ButtonInterface
+ * @returns buttonInterface로 부터 추출한 class name 배열
  */
-export const convertButtonClassToClassName = (
-  buttonClass: ButtonClass
+export const convertButtonInterfaceToClassName = (
+  buttonInterface: ButtonInterface
 ): string[] => {
   const classNames = [];
-  for (const key of Object.getOwnPropertyNames(buttonClass)) {
-    const value = buttonClass[key];
-    console.log(key, value, !!value);
+  for (const key of Object.getOwnPropertyNames(buttonInterface)) {
+    const value = buttonInterface[key];
     if (value) {
       classNames.push(
         `${convertCamelToKebabCase(key)}${
@@ -23,4 +23,26 @@ export const convertButtonClassToClassName = (
     }
   }
   return classNames;
+};
+/**
+ * 일반 객체를 ButtonInterface로 변환하는 함수
+ *
+ * @param obj ButtonInterface로 변환할 객체
+ * @returns 변환된 ButtonInterface
+ */
+export const convertObjectToButtonInterface = (
+  obj: BasicObject<ButtonProperty>
+): ButtonInterface => {
+  const buttonInterface = {
+    shape: null,
+    background: null,
+    textColor: null,
+    hasBorder: null,
+    height: null,
+    fontSize: null,
+  } as ButtonInterface;
+  for (const key of Object.getOwnPropertyNames(obj)) {
+    buttonInterface[key] = obj[key];
+  }
+  return buttonInterface;
 };
