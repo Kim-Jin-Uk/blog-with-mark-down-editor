@@ -1,6 +1,8 @@
 import Head from "next/head";
-import MarkdownEditor from "C-Markdown/index";
-import Button from "@/components/Common/Button";
+import MarkdownEditor from "@/components/Organisms/MarkDownEditor/index";
+import Button from "@/components/Atoms/Button";
+import Header from "@/components/Organisms/Header";
+import { ButtonClass } from "@/components/Atoms/Button/types";
 
 export default function Home() {
   const onClickButton = (key: string) => {
@@ -15,22 +17,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Header></Header>
         <MarkdownEditor />
         <Button
           onClick={() => onClickButton("main")}
           svg={"follow"}
-          type="main"
+          buttonClass={new ButtonClass("round", "blue", "white", false, 28, 14)}
         >
           hello1
-        </Button>
-        <Button onClick={() => onClickButton("black")} type="black">
-          hello2
-        </Button>
-        <Button onClick={() => onClickButton("white")} type="white">
-          hello3
-        </Button>
-        <Button onClick={() => onClickButton("")} type="">
-          hello3
         </Button>
       </main>
     </>

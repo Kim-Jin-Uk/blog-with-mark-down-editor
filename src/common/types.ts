@@ -5,6 +5,8 @@
  * @created 23-05-12
  * @updated 23-05-12
  */
-export interface BasicObject<T> {
+export class BasicObject<T> {
   [key: string]: T;
 }
+
+export type None = undefined | null;
