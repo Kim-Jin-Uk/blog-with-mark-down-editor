@@ -8,6 +8,7 @@
   align-items: center;
   padding: $padding-y-base $padding-x-base;
   border: none;
+  cursor: pointer;
   @include transition--background-color;
 }
 
