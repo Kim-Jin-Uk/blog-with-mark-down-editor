@@ -2,7 +2,7 @@
 @import "../../abstracts/mixins";
 
 .button {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -17,4 +17,57 @@
   position: relative;
   top: -12px;
   overflow: visible;
+}
+
+.shape--round {
+  border-radius: 50vh;
+}
+
+@each $color, $value in $colors {
+  .background--#{$color} {
+    background-color: $value;
+    &:hover {
+      background-color: map-get($colors-hover, $color);
+    }
+  }
+}
+
+@each $color, $value in $colors {
+  .color--#{$color} {
+    color: $value;
+  }
+}
+
+.has-border {
+  border: 1px solid map-get($colors, "gray");
+}
+
+.is-active {
+  color: map-get($colors, "blue");
+  border-color: map-get($colors, "blue");
+}
+
+.is-disabled {
+  background-color: map-get($colors, "gray");
+  color: map-get($colors, "white");
+}
+
+@each $height, $value in $heights {
+  .height--#{$height} {
+    height: $value;
+  }
+}
+
+@each $font-size, $value in $font-sizes {
+  .font-size--#{$font-size} {
+    font-size: $value;
+  }
+}
+
+@each $padding-v, $value-v in $paddings-vertical {
+  @each $padding-h, $value-h in $paddings-horizontal {
+    .padding--#{$padding-v}-#{$padding-h} {
+      padding: $value-v $value-h;
+    }
+  }
 }
