@@ -33,6 +33,20 @@ export default function Home() {
         >
           hello1
         </Button>
+        <Button
+          onClick={() => onClickButton("main")}
+          buttonInterface={convertObjectToButtonInterface({
+            shape: "round",
+            background: "blue",
+            color: "white",
+            hasBorder: false,
+            height: 56,
+            fontSize: 20,
+            padding: [12, 48],
+          })}
+        >
+          hello1
+        </Button>
       </main>
     </>
   );

@@ -11,6 +11,7 @@ export type ButtonProperty =
   | ButtonTextColor
   | boolean
   | number
+  | number[]
   | None;
 
 export interface ButtonInterface extends BasicObject<ButtonProperty> {
@@ -20,6 +21,7 @@ export interface ButtonInterface extends BasicObject<ButtonProperty> {
   hasBorder: boolean | None;
   height: number | None;
   fontSize: number | None;
+  padding: number[] | None;
 }
 
 export interface ButtonProps {

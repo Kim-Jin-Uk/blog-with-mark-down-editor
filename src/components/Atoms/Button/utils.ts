@@ -17,7 +17,11 @@ export const convertButtonInterfaceToClassName = (
     if (value) {
       classNames.push(
         `${convertCamelToKebabCase(key)}${
-          typeof value === "boolean" ? "" : `--${value}`
+          typeof value === "boolean"
+            ? ""
+            : Array.isArray(value)
+            ? `--${value.join("-")}`
+            : `--${value}`
         }`
       );
     }
