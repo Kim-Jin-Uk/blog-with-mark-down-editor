@@ -16,7 +16,7 @@ export const convertButtonInterfaceToClassName = (
     const value = buttonInterface[key];
     if (value) {
       classNames.push(
-        `${convertCamelToKebabCase(key)}${
+        `button--${convertCamelToKebabCase(key)}${
           typeof value === "boolean"
             ? ""
             : Array.isArray(value)
