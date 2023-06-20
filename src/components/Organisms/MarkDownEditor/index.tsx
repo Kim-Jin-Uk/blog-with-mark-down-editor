@@ -11,6 +11,8 @@ import {
   markdownAddStyleMap,
   markdownSetStyleMap,
 } from "@/components/Organisms/MarkDownEditor/constants/styleMap";
+import Button from "@/components/Atoms/Button";
+import { convertObjectToButtonInterface } from "@/components/Atoms/Button/utils";
 
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState("");
@@ -113,24 +115,6 @@ const MarkdownEditor = () => {
     setMarkdown(event.target.value);
   };
 
-  /**
-   * 스타일 추가가 가능한 버튼 렌더링
-   */
-  const renderAddStyleButtons = (): JSX.Element[] => {
-    const addStyleButtons: JSX.Element[] = [];
-
-    markdownAddStyleMap.forEach((_, key) => {
-      const addStyleButton = (
-        <button key={key} onClick={() => addStyle(key)}>
-          {key}
-        </button>
-      );
-      addStyleButtons.push(addStyleButton);
-    });
-
-    return addStyleButtons;
-  };
-
   /** 모든 변화에 대해 파싱을 적용하면 비효율적이기에 디바운싱을 적용 */
   useEffect(
     () => setInnerHtml(parseMarkdown(debounceMarkdown)),
@@ -139,7 +123,24 @@ const MarkdownEditor = () => {
 
   return (
     <>
-      {renderAddStyleButtons()}
+      {Array.from(markdownAddStyleMap.keys()).map((key) => {
+        return (
+          <Button
+            key={key}
+            onClick={() => addStyle(key)}
+            buttonInterface={convertObjectToButtonInterface({
+              shape: "round",
+              background: "black",
+              color: "white",
+              hasBorder: false,
+              height: 32,
+              fontSize: 14,
+            })}
+          >
+            {key}
+          </Button>
+        );
+      })}
       <textarea
         ref={markdownTextArea}
         value={markdown}
