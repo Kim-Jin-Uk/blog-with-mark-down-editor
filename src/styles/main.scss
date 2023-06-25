@@ -1,7 +1,5 @@
-@import "./abstracts/variables";
-@import "./abstracts/mixins";
+@import "./abstracts/index";
 
-@import "./base/global";
+@import "./base/index";
 
-@import "./components/Common/Button";
-@import "./components/Common/Nav";
+@import "./components/index";

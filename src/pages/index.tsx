@@ -1,13 +1,7 @@
 import Head from "next/head";
-import MarkdownEditor from "@/components/Organisms/MarkDownEditor/index";
-import Button from "@/components/Atoms/Button";
-import Header from "@/components/Organisms/Header";
-import { convertObjectToButtonInterface } from "@/components/Atoms/Button/utils";
+import Main from "@/components/Template/Main";
 
 export default function Home() {
-  const onClickButton = (key: string) => {
-    console.log(`key: ${key}`);
-  };
   return (
     <>
       <Head>
@@ -17,36 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header></Header>
-        <MarkdownEditor />
-        <Button
-          onClick={() => onClickButton("main")}
-          svg={"follow"}
-          buttonInterface={convertObjectToButtonInterface({
-            shape: "round",
-            background: "blue",
-            color: "white",
-            hasBorder: false,
-            height: 28,
-            fontSize: 14,
-          })}
-        >
-          hello1
-        </Button>
-        <Button
-          onClick={() => onClickButton("main")}
-          buttonInterface={convertObjectToButtonInterface({
-            shape: "round",
-            background: "blue",
-            color: "white",
-            hasBorder: false,
-            height: 56,
-            fontSize: 20,
-            padding: [12, 48],
-          })}
-        >
-          hello1
-        </Button>
+        <Main></Main>
       </main>
     </>
   );

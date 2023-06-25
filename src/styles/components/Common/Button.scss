@@ -9,7 +9,7 @@
   padding: $padding-y-base $padding-x-base;
   border: none;
   cursor: pointer;
-  @include transition--background-color;
+  transition: 0.25s;
 }
 
 .svg--inner-button--height-24px {
@@ -58,6 +58,12 @@
   }
 }
 
+@each $width, $value in $widths {
+  .button--width--#{$width} {
+    width: $value;
+  }
+}
+
 @each $font-size, $value in $font-sizes {
   .button--font-size--#{$font-size} {
     font-size: $value;
@@ -69,5 +75,20 @@
     .button--padding--#{$padding-v}-#{$padding-h} {
       padding: $value-v $value-h;
     }
+  }
+}
+
+@each $flex-align, $value in $flex-aligns {
+  .button--align--#{$flex-align} {
+    justify-content: $value;
+  }
+}
+
+.button--is-not-active {
+  background-color: map-get($colors, "white");
+  color: map-get($colors, "black");
+  border: 1px solid map-get($colors, "gray");
+  &:hover {
+    background-color: map-get($colors-hover, "white");
   }
 }

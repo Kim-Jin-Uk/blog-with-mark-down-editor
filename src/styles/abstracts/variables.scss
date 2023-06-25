@@ -25,6 +25,10 @@ $heights: (
   "56": 56px,
 );
 
+$widths: (
+  "172": 172px,
+);
+
 $font-sizes: (
   "14": 14px,
   "18": 18px,
@@ -40,6 +44,7 @@ $paddings-vertical: (
   "16": 16px,
   "20": 20px,
 );
+
 $paddings-horizontal: (
   "10": 10px,
   "12": 12px,
@@ -49,6 +54,11 @@ $paddings-horizontal: (
   "40": 40px,
   "48": 48px,
   "112": 112px,
+);
+
+$flex-aligns: (
+  "left": flex-start,
+  "right": flex-end,
 );
 
 $padding-x-base: 12px;
