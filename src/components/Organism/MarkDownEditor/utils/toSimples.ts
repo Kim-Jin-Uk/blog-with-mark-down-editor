@@ -13,8 +13,8 @@ import {
   inlineCodeReg,
   italicReg,
   strongReg,
-} from "@/components/Organisms/MarkDownEditor/constants/regExp";
-import { headConverterFor } from "@/components/Organisms/MarkDownEditor/utils/makeHtml";
+} from "@/components/Organism/MarkDownEditor/constants/regExp";
+import { headConverterFor } from "@/components/Organism/MarkDownEditor/utils/makeHtml";
 
 /**
  * 마크다운 내부의 (h, strong, em, a, br) 태그 형식을 HTML로 변환하는 함수

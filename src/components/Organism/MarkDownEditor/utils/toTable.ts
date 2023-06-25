@@ -6,8 +6,8 @@
  * @updated 23-05-08
  */
 
-import { tableReg } from "@/components/Organisms/MarkDownEditor/constants/regExp";
-import { makeTableRow } from "@/components/Organisms/MarkDownEditor/utils/makeHtml";
+import { tableReg } from "@/components/Organism/MarkDownEditor/constants/regExp";
+import { makeTableRow } from "@/components/Organism/MarkDownEditor/utils/makeHtml";
 
 /**
  * align 표현식을 실제 text-align에 넣을 값으로 변환하는 함수

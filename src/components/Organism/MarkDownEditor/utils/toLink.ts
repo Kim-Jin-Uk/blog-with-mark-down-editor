@@ -11,8 +11,8 @@ import {
   refferenceLinkReg,
   propertyLinkReg,
   urlLinkReg,
-} from "@/components/Organisms/MarkDownEditor/constants/regExp";
-import { linkConverterFor } from "@/components/Organisms/MarkDownEditor/utils/makeHtml";
+} from "@/components/Organism/MarkDownEditor/constants/regExp";
+import { linkConverterFor } from "@/components/Organism/MarkDownEditor/utils/makeHtml";
 
 /**
  * 마크다운 내부의 링크 형식을 HTML로 변환하는 함수

@@ -12,17 +12,17 @@ import {
   classReg,
   methodReg,
   consoleReg,
-} from "@/components/Organisms/MarkDownEditor/constants/regExp";
+} from "@/components/Organism/MarkDownEditor/constants/regExp";
 import {
   funcClass,
   classClass,
   methodClass,
   consoleClass,
-} from "@/components/Organisms/MarkDownEditor/constants/classNames";
+} from "@/components/Organism/MarkDownEditor/constants/classNames";
 import {
   makeCodeBlockTagFor,
   spanConverterFor,
-} from "@/components/Organisms/MarkDownEditor/utils/makeHtml";
+} from "@/components/Organism/MarkDownEditor/utils/makeHtml";
 
 /**
  * 마크다운 내부의 코드 블록 형식을 HTML로 변환하는 함수

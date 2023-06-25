@@ -5,14 +5,14 @@
  * @updated 23-05-12
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { parseMarkdown } from "@/components/Organisms/MarkDownEditor/utils";
-import { useDebounce } from "@/components/Organisms/MarkDownEditor/hooks/useDebounce";
+import { parseMarkdown } from "@/components/Organism/MarkDownEditor/utils";
+import { useDebounce } from "@/components/Organism/MarkDownEditor/hooks/useDebounce";
 import {
   markdownAddStyleMap,
   markdownSetStyleMap,
-} from "@/components/Organisms/MarkDownEditor/constants/styleMap";
-import Button from "@/components/Atoms/Button";
-import { convertObjectToButtonInterface } from "@/components/Atoms/Button/utils";
+} from "@/components/Organism/MarkDownEditor/constants/styleMap";
+import Button from "@/components/Atom/Button";
+import { convertObjectToButtonInterface } from "@/components/Atom/Button/utils";
 
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState("");
