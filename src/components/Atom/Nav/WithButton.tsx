@@ -15,9 +15,8 @@ const NavWithButton = ({
     <nav>
       <ul>
         {Array.from(itemsMap.keys()).map((item, idx) => (
-          <li style={{ padding: 4 }}>
+          <li style={{ padding: 4 }} key={item}>
             <Button
-              key={item}
               buttonInterface={convertObjectToButtonInterface({
                 shape: "round",
                 background: "blue",

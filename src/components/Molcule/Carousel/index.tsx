@@ -18,6 +18,7 @@ const Carousel = () => {
   const Carousel = {
     items: [
       <div
+        key={1}
         style={{
           width: `calc(${itemWidth})`,
           minWidth: "230px",
@@ -29,6 +30,7 @@ const Carousel = () => {
         Item1
       </div>,
       <div
+        key={2}
         style={{
           width: `calc(${itemWidth})`,
           minWidth: "230px",
@@ -40,6 +42,7 @@ const Carousel = () => {
         Item2
       </div>,
       <div
+        key={3}
         style={{
           width: `calc(${itemWidth})`,
           minWidth: "230px",

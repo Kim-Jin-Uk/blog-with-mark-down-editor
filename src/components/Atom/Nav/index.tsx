@@ -5,12 +5,10 @@ const Nav = ({ items }: { items: string[] }) => {
     <nav>
       <ul className="nav-list">
         {items.map((item: string) => (
-          <>
-            <li className="nav-list-item" key={item}>
-              <span className="nav-item-text">{item}</span>
-              <div className="nav-under-bar"></div>
-            </li>
-          </>
+          <li className="nav-list-item" key={item}>
+            <span className="nav-item-text">{item}</span>
+            <div className="nav-under-bar"></div>
+          </li>
         ))}
       </ul>
     </nav>
