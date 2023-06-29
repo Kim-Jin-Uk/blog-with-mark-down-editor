@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { makeInfinityCarousel } from "./utils";
 
 const itemWidth = "(100vw - 484px)";
 
@@ -79,31 +80,28 @@ const Carousel = () => {
     container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${
       position + 1 * (isNext ? 1 : -1)
     }))`;
-    // 캐루셀 회전을 위한 변수
+
     const lastPosition = Carousel.items.length;
     const firstPosition = 1;
-    // 회전이 필요 없으면 클릭 활성화 및 리턴
-    if (
-      (isNext && position < lastPosition) ||
-      (!isNext && position > firstPosition)
-    ) {
-      setIsClickable(true);
-      return;
-    }
-    // 캐루셀 회전 - transition을 none으로 설정하여 Infinity Carousel과 같이 동작
+
     setTimeout(() => {
-      if (!container.current) return;
-      container.current.style.transition = "none";
-      container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${
-        isNext ? firstPosition : lastPosition
-      }))`;
+      if (
+        (isNext && position < lastPosition) ||
+        (!isNext && position > firstPosition) ||
+        !container.current
+      ) {
+        setIsClickable(true);
+        return;
+      }
+      // 무한 캐루셀처럼 보이도록 처리
+      makeInfinityCarousel(
+        container.current,
+        `translateX(calc(-1 * ${itemWidth} * ${
+          isNext ? firstPosition : lastPosition
+        }))`,
+        () => setIsClickable(true)
+      );
     }, 500);
-    // transition을 다시 할당
-    setTimeout(() => {
-      if (!container.current) return;
-      container.current.style.transition = "transform 0.5s";
-      setIsClickable(true);
-    }, 550);
   };
 
   useEffect(() => {
