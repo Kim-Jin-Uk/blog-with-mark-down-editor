@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent as ReactMouseMove,
+} from "react";
 import { makeInfinityCarousel } from "./utils";
 
 const itemWidth = "(100vw - 484px)";
@@ -8,12 +13,11 @@ const Carousel = () => {
   const slider = useRef<null | HTMLDivElement>(null);
   const [position, setPosition] = useState(1);
   const [isClickable, setIsClickable] = useState(true);
-  // TODO: touch, click 이벤트 감지하여 캐루셀을 이동
-  const [startX, setStartX] = useState(0);
-  const [endX, setEndX] = useState(0);
+  const startX = useRef<number>(0);
+  const endX = useRef<number>(0);
+
   const [isMove, setIsMove] = useState(false);
   const [isClick, setIsClick] = useState(false);
-  // TODO: 캐루셀 영역을 감지
   const [isOver, setIsOver] = useState(false);
 
   const Carousel = {
@@ -21,6 +25,10 @@ const Carousel = () => {
       <div
         key={1}
         style={{
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          MozUserSelect: "none",
+          msUserSelect: "none",
           width: `calc(${itemWidth})`,
           minWidth: "230px",
           height: "auto",
@@ -33,6 +41,10 @@ const Carousel = () => {
       <div
         key={2}
         style={{
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          MozUserSelect: "none",
+          msUserSelect: "none",
           width: `calc(${itemWidth})`,
           minWidth: "230px",
           height: "auto",
@@ -45,6 +57,10 @@ const Carousel = () => {
       <div
         key={3}
         style={{
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          MozUserSelect: "none",
+          msUserSelect: "none",
           width: `calc(${itemWidth})`,
           minWidth: "230px",
           height: "auto",
@@ -104,9 +120,59 @@ const Carousel = () => {
     }, 500);
   };
 
+  const actionDone = () => {
+    if (startX.current > endX.current + 20) move(true);
+    else if (startX.current < endX.current - 20) move(false);
+    else if (Math.abs(startX.current - endX.current) < 5) {
+      setIsClick(true);
+    } else if (container.current) {
+      container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position}))`;
+    }
+  };
+
+  // TODO: 드래그 가능 영역에서만 mouse move 이벤트가 동작하도록 처리한다
+  const mouseOver = (event: ReactMouseMove<HTMLDivElement>) => {
+    console.log(event.target, slider.current);
+    if (event.target !== slider.current) return;
+    setIsOver(true); // 현재 드래그 가능 영역임을 표시
+  };
+  const mouseLeave = (event: ReactMouseMove<HTMLDivElement>) => {
+    if (!container.current) return;
+    if (event.target !== slider.current) return;
+
+    setIsOver(false);
+    container.current.onmousemove = null;
+    if (!isMove) return;
+    actionDone();
+    setIsMove(false);
+  };
+
+  // 웹 이벤트 핸들러
+  const mouseMove = (event: MouseEvent) => {
+    // 드래그 가능영역에서만 이벤트 발생
+    if (!container.current || !isOver) return;
+    endX.current = event.clientX;
+    container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position} + ${
+      event.clientX - startX.current
+    }px))`;
+  };
+  const mouseDown = (event: ReactMouseMove<HTMLDivElement>) => {
+    if (!container.current) return;
+    container.current.onmousemove = mouseMove;
+    startX.current = event.clientX;
+    setIsMove(true);
+  };
+  const mouseUp = (event: ReactMouseMove<HTMLDivElement>) => {
+    if (!container.current) return;
+    container.current.onmousemove = null;
+    endX.current = event.clientX;
+    actionDone();
+    setIsMove(false);
+  };
+
   useEffect(() => {
-    console.log(position);
-  }, [position]);
+    console.log(isOver);
+  }, [isOver]);
 
   return (
     <>
@@ -118,6 +184,8 @@ const Carousel = () => {
           overflow: "hidden",
           margin: "0 auto",
         }}
+        onMouseEnter={mouseOver}
+        onMouseLeave={mouseLeave}
       >
         <div
           ref={container}
@@ -130,6 +198,8 @@ const Carousel = () => {
             transition: "transform 0.5s",
             transform: `translateX(calc(-1 * ${itemWidth}))`,
           }}
+          onMouseDown={mouseDown}
+          onMouseUp={mouseUp}
         >
           {Carousel.items.length > 1 && Carousel.items.at(-1)}
           {Carousel.items.map((Item) => Item)}
