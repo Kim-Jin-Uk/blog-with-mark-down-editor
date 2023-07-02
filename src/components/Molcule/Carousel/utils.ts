@@ -14,8 +14,8 @@ export const makeInfinityCarousel = (
 ) => {
   carousel.style.transition = "none";
   carousel.style.transform = arrivalPosition;
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     carousel.style.transition = "transform 0.5s";
     callBack();
-  });
+  }, 10);
 };
