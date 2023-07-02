@@ -2,76 +2,43 @@ import React, {
   useState,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
+  cloneElement,
+  ReactElement,
+  useEffect,
 } from "react";
-import { makeInfinityCarousel } from "./utils";
 import { useRefs, useStates } from "@/common/utils";
 
 const itemWidth = "(100vw - 484px)";
 
-const Carousel = () => {
+const Carousel = ({
+  items,
+  height,
+}: {
+  items: ReactElement[];
+  height: number;
+}) => {
   const [slider, container] = useRefs<null | HTMLDivElement>([null, null]);
   const [startX, endX] = useRefs<number>([0, 0]);
 
-  const [position, setPosition] = useState(1);
   const [
     [isClickable, setIsClickable],
     [isOver, setIsOver],
     [isMove, setIsMove],
     [isClick, setIsClick],
-  ] = useStates<boolean>([true, false, false, false]);
+    [hasTransition, setHasTransition],
+  ] = useStates<boolean>([true, false, false, false, true]);
 
-  const Carousel = {
-    items: [
-      <div
-        key={1}
-        style={{
-          userSelect: "none",
-          WebkitUserSelect: "none",
-          MozUserSelect: "none",
-          msUserSelect: "none",
-          width: `calc(${itemWidth})`,
-          minWidth: "230px",
-          height: "auto",
-          margin: "0",
-          backgroundColor: "green",
-        }}
-      >
-        Item1
-      </div>,
-      <div
-        key={2}
-        style={{
-          userSelect: "none",
-          WebkitUserSelect: "none",
-          MozUserSelect: "none",
-          msUserSelect: "none",
-          width: `calc(${itemWidth})`,
-          minWidth: "230px",
-          height: "auto",
-          margin: "0",
-          backgroundColor: "green",
-        }}
-      >
-        Item2
-      </div>,
-      <div
-        key={3}
-        style={{
-          userSelect: "none",
-          WebkitUserSelect: "none",
-          MozUserSelect: "none",
-          msUserSelect: "none",
-          width: `calc(${itemWidth})`,
-          minWidth: "230px",
-          height: "auto",
-          margin: "0",
-          backgroundColor: "green",
-        }}
-      >
-        Item3
-      </div>,
-    ],
-    height: "80px",
+  const [position, setPosition] = useState(1);
+  const [arrivalPosition, setArrivalPosition] = useState<string>("");
+
+  const itemStyle = {
+    width: `calc(${itemWidth})`,
+    userSelect: "none",
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    msUserSelect: "none",
+    height: height,
+    margin: "0",
   };
 
   /**
@@ -81,13 +48,13 @@ const Carousel = () => {
    */
   const move = (isNext: boolean) => {
     // (클릭할 수 없는 상태 || 아이템 수가 1개 이하 || 아직 ref변수에 slider 할당이 되지 않은 상태)이면 리턴
-    if (!isClickable || Carousel.items.length <= 1 || !slider.current) return;
+    if (!isClickable || items.length <= 1 || !slider.current) return;
 
     // 액션이 끝나기까지는 추가 클릭 방지
     setIsClickable(false);
 
-    const nextPosition = position < Carousel.items.length ? position + 1 : 1;
-    const prevposition = position > 1 ? position - 1 : Carousel.items.length;
+    const nextPosition = position < items.length ? position + 1 : 1;
+    const prevposition = position > 1 ? position - 1 : items.length;
     // 다음 포지션으로 갱신
     const afterPosition = isNext ? nextPosition : prevposition;
     setPosition(afterPosition);
@@ -96,7 +63,7 @@ const Carousel = () => {
       position + 1 * (isNext ? 1 : -1)
     }))`;
 
-    const lastPosition = Carousel.items.length;
+    const lastPosition = items.length;
     const firstPosition = 1;
 
     setTimeout(() => {
@@ -109,16 +76,26 @@ const Carousel = () => {
         return;
       }
       // 무한 캐루셀처럼 보이도록 처리
-      makeInfinityCarousel(
-        slider.current,
+      setHasTransition(false);
+      setArrivalPosition(
         `translateX(calc(-1 * ${itemWidth} * ${
           isNext ? firstPosition : lastPosition
-        }))`,
-        () => setIsClickable(true)
+        }))`
       );
     }, 500);
   };
 
+  useEffect(() => {
+    if (hasTransition) {
+      setIsClickable(true);
+    } else {
+      if (!slider.current) return;
+      slider.current.style.transform = arrivalPosition;
+      requestAnimationFrame(() => {
+        setHasTransition(true);
+      });
+    }
+  }, [hasTransition, arrivalPosition]);
   /**
    * 캐루셀 이동시 이벤트를 종료시키는 함수
    * 상황에 따라 다음, 이전 아이템으로 이동시키거나 다시 원복한다
@@ -191,13 +168,11 @@ const Carousel = () => {
   };
   const touchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
     if (!slider.current) return;
-    console.log("touchStrat");
     slider.current.ontouchmove = touchMove;
     startX.current = event.touches[0].pageX;
   };
   const touchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
     if (!slider.current) return;
-    console.log("touchEnd");
     slider.current.ontouchmove = null;
     endX.current = event.changedTouches[0].pageX;
     actionDone();
@@ -220,12 +195,11 @@ const Carousel = () => {
         <div
           ref={slider}
           style={{
-            backgroundColor: "blue",
-            width: `calc(${Carousel.items.length + 2} * ${itemWidth})`,
+            width: `calc(${items.length + 2} * ${itemWidth})`,
             position: "relative",
             display: "flex",
-            height: Carousel.height,
-            transition: "transform 0.5s",
+            height: height,
+            transition: hasTransition ? "transform 0.5s" : "none",
             transform: `translateX(calc(-1 * ${itemWidth}))`,
           }}
           onMouseDown={mouseDown}
@@ -233,9 +207,12 @@ const Carousel = () => {
           onTouchStart={touchStart}
           onTouchEnd={touchEnd}
         >
-          {Carousel.items.length > 1 && Carousel.items.at(-1)}
-          {Carousel.items.map((Item) => Item)}
-          {Carousel.items.length > 1 && Carousel.items[0]}
+          {items.length > 1 &&
+            cloneElement(items.at(-1)!, {
+              style: itemStyle,
+            })}
+          {items.map((item) => cloneElement(item, { style: itemStyle }))}
+          {items.length > 1 && cloneElement(items[0]!, { style: itemStyle })}
         </div>
       </div>
     </>
