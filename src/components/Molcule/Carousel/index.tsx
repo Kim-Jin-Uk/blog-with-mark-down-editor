@@ -9,16 +9,15 @@ import { makeInfinityCarousel } from "./utils";
 const itemWidth = "(100vw - 484px)";
 
 const Carousel = () => {
-  const container = useRef<null | HTMLDivElement>(null);
   const slider = useRef<null | HTMLDivElement>(null);
+  const container = useRef<null | HTMLDivElement>(null);
   const [position, setPosition] = useState(1);
   const [isClickable, setIsClickable] = useState(true);
   const startX = useRef<number>(0);
   const endX = useRef<number>(0);
-
+  const [isOver, setIsOver] = useState(false);
   const [isMove, setIsMove] = useState(false);
   const [isClick, setIsClick] = useState(false);
-  const [isOver, setIsOver] = useState(false);
 
   const Carousel = {
     items: [
@@ -80,9 +79,8 @@ const Carousel = () => {
    * @param isNext 다음으로 이동할지 이전으로 이동할지 판단하는 변수
    */
   const move = (isNext: boolean) => {
-    // (클릭할 수 없는 상태 || 아이템 수가 1개 이하 || 아직 ref변수에 container 할당이 되지 않은 상태)이면 리턴
-    if (!isClickable || Carousel.items.length <= 1 || !container.current)
-      return;
+    // (클릭할 수 없는 상태 || 아이템 수가 1개 이하 || 아직 ref변수에 slider 할당이 되지 않은 상태)이면 리턴
+    if (!isClickable || Carousel.items.length <= 1 || !slider.current) return;
 
     // 액션이 끝나기까지는 추가 클릭 방지
     setIsClickable(false);
@@ -93,7 +91,7 @@ const Carousel = () => {
     const afterPosition = isNext ? nextPosition : prevposition;
     setPosition(afterPosition);
     // 다음 아이템으로 이동
-    container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${
+    slider.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${
       position + 1 * (isNext ? 1 : -1)
     }))`;
 
@@ -104,14 +102,14 @@ const Carousel = () => {
       if (
         (isNext && position < lastPosition) ||
         (!isNext && position > firstPosition) ||
-        !container.current
+        !slider.current
       ) {
         setIsClickable(true);
         return;
       }
       // 무한 캐루셀처럼 보이도록 처리
       makeInfinityCarousel(
-        container.current,
+        slider.current,
         `translateX(calc(-1 * ${itemWidth} * ${
           isNext ? firstPosition : lastPosition
         }))`,
@@ -125,23 +123,20 @@ const Carousel = () => {
     else if (startX.current < endX.current - 20) move(false);
     else if (Math.abs(startX.current - endX.current) < 5) {
       setIsClick(true);
-    } else if (container.current) {
-      container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position}))`;
+    } else if (slider.current) {
+      slider.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position}))`;
     }
   };
 
   // TODO: 드래그 가능 영역에서만 mouse move 이벤트가 동작하도록 처리한다
-  const mouseOver = (event: ReactMouseMove<HTMLDivElement>) => {
-    console.log(event.target, slider.current);
-    if (event.target !== slider.current) return;
+  const mouseEnter = (event: ReactMouseMove<HTMLDivElement>) => {
     setIsOver(true); // 현재 드래그 가능 영역임을 표시
   };
   const mouseLeave = (event: ReactMouseMove<HTMLDivElement>) => {
-    if (!container.current) return;
-    if (event.target !== slider.current) return;
+    if (!slider.current) return;
 
     setIsOver(false);
-    container.current.onmousemove = null;
+    slider.current.onmousemove = null;
     if (!isMove) return;
     actionDone();
     setIsMove(false);
@@ -150,45 +145,42 @@ const Carousel = () => {
   // 웹 이벤트 핸들러
   const mouseMove = (event: MouseEvent) => {
     // 드래그 가능영역에서만 이벤트 발생
-    if (!container.current || !isOver) return;
+    if (!slider.current || !isOver) return;
     endX.current = event.clientX;
-    container.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position} + ${
+    slider.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position} + ${
       event.clientX - startX.current
     }px))`;
   };
   const mouseDown = (event: ReactMouseMove<HTMLDivElement>) => {
-    if (!container.current) return;
-    container.current.onmousemove = mouseMove;
+    if (!slider.current) return;
+    slider.current.onmousemove = mouseMove;
     startX.current = event.clientX;
     setIsMove(true);
   };
   const mouseUp = (event: ReactMouseMove<HTMLDivElement>) => {
-    if (!container.current) return;
-    container.current.onmousemove = null;
+    if (!slider.current) return;
+    slider.current.onmousemove = null;
     endX.current = event.clientX;
     actionDone();
     setIsMove(false);
   };
 
-  useEffect(() => {
-    console.log(isOver);
-  }, [isOver]);
-
   return (
     <>
       <div
-        ref={slider}
+        ref={container}
         style={{
           width: `calc(${itemWidth})`,
           height: "auto",
           overflow: "hidden",
           margin: "0 auto",
+          display: "inline-block",
         }}
-        onMouseEnter={mouseOver}
+        onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeave}
       >
         <div
-          ref={container}
+          ref={slider}
           style={{
             backgroundColor: "blue",
             width: `calc(${Carousel.items.length + 2} * ${itemWidth})`,
@@ -205,8 +197,6 @@ const Carousel = () => {
           {Carousel.items.map((Item) => Item)}
           {Carousel.items.length > 1 && Carousel.items[0]}
         </div>
-        <button onClick={() => move(false)}> back </button>
-        <button onClick={() => move(true)}> next </button>
       </div>
     </>
   );
