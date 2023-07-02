@@ -5,18 +5,24 @@ import React, {
   cloneElement,
   ReactElement,
   useEffect,
+  MutableRefObject,
+  useImperativeHandle,
+  forwardRef,
 } from "react";
 import { useRefs, useStates } from "@/common/utils";
 
 const itemWidth = "(100vw - 484px)";
+export interface AutoMoveHandle {
+  autoMove: () => void;
+}
 
-const Carousel = ({
-  items,
-  height,
-}: {
-  items: ReactElement[];
-  height: number;
-}) => {
+const Carousel = forwardRef<
+  AutoMoveHandle,
+  {
+    items: ReactElement[];
+    height: number;
+  }
+>(({ items, height }, carousel) => {
   const [slider, container] = useRefs<null | HTMLDivElement>([null, null]);
   const [startX, endX] = useRefs<number>([0, 0]);
 
@@ -40,6 +46,12 @@ const Carousel = ({
     height: height,
     margin: "0",
   };
+
+  useImperativeHandle(carousel, () => ({
+    autoMove() {
+      move(true);
+    },
+  }));
 
   /**
    * 캐루셀을 이동시키는 함수
@@ -84,18 +96,6 @@ const Carousel = ({
       );
     }, 500);
   };
-
-  useEffect(() => {
-    if (hasTransition) {
-      setIsClickable(true);
-    } else {
-      if (!slider.current) return;
-      slider.current.style.transform = arrivalPosition;
-      requestAnimationFrame(() => {
-        setHasTransition(true);
-      });
-    }
-  }, [hasTransition, arrivalPosition]);
   /**
    * 캐루셀 이동시 이벤트를 종료시키는 함수
    * 상황에 따라 다음, 이전 아이템으로 이동시키거나 다시 원복한다
@@ -158,7 +158,9 @@ const Carousel = ({
     actionDone();
     setIsMove(false);
   };
-
+  /**
+   * TouchMove 이벤트 발생시 캐루셀을 이동시키는 함수
+   */
   const touchMove = (event: TouchEvent) => {
     // 캐루셀 영역에서만 이벤트 발생
     if (!slider.current) return;
@@ -166,17 +168,35 @@ const Carousel = ({
       event.touches[0].pageX - startX.current
     }px))`;
   };
+  /**
+   * TouchStart 이벤트 발생시 touchMove 핸들러를 등록해주고 이벤트 시작 위치를 표시하는 함수
+   */
   const touchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.ontouchmove = touchMove;
     startX.current = event.touches[0].pageX;
   };
+  /**
+   * TouchEnd 이벤트 발생시 touchMove 핸들러를 삭제해주고 캐루셀 이동을 완료시키는 함수
+   */
   const touchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.ontouchmove = null;
     endX.current = event.changedTouches[0].pageX;
     actionDone();
   };
+
+  useEffect(() => {
+    if (hasTransition) {
+      setIsClickable(true);
+    } else {
+      if (!slider.current) return;
+      slider.current.style.transform = arrivalPosition;
+      requestAnimationFrame(() => {
+        setHasTransition(true);
+      });
+    }
+  }, [hasTransition, arrivalPosition]);
 
   return (
     <>
@@ -217,6 +237,6 @@ const Carousel = ({
       </div>
     </>
   );
-};
+});
 
 export default Carousel;
