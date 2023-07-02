@@ -1,4 +1,8 @@
-import React, { useState, MouseEvent as ReactMouseMove } from "react";
+import React, {
+  useState,
+  MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
+} from "react";
 import { makeInfinityCarousel } from "./utils";
 import { useRefs, useStates } from "@/common/utils";
 
@@ -161,7 +165,7 @@ const Carousel = () => {
   /**
    * MouseDown 이벤트 발생시 mouseMove 핸들러를 등록해주고 이벤트 시작 위치를 표시하는 함수
    */
-  const mouseDown = (event: ReactMouseMove<HTMLDivElement>) => {
+  const mouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.onmousemove = mouseMove;
     startX.current = event.clientX;
@@ -170,12 +174,33 @@ const Carousel = () => {
   /**
    * MouseUp 이벤트 발생시 mouseMove 핸들러를 삭제해주고 캐루셀 이동을 완료시키는 함수
    */
-  const mouseUp = (event: ReactMouseMove<HTMLDivElement>) => {
+  const mouseUp = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.onmousemove = null;
     endX.current = event.clientX;
     actionDone();
     setIsMove(false);
+  };
+
+  const touchMove = (event: TouchEvent) => {
+    // 캐루셀 영역에서만 이벤트 발생
+    if (!slider.current) return;
+    slider.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position} + ${
+      event.touches[0].pageX - startX.current
+    }px))`;
+  };
+  const touchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
+    if (!slider.current) return;
+    console.log("touchStrat");
+    slider.current.ontouchmove = touchMove;
+    startX.current = event.touches[0].pageX;
+  };
+  const touchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
+    if (!slider.current) return;
+    console.log("touchEnd");
+    slider.current.ontouchmove = null;
+    endX.current = event.changedTouches[0].pageX;
+    actionDone();
   };
 
   return (
@@ -205,6 +230,8 @@ const Carousel = () => {
           }}
           onMouseDown={mouseDown}
           onMouseUp={mouseUp}
+          onTouchStart={touchStart}
+          onTouchEnd={touchEnd}
         >
           {Carousel.items.length > 1 && Carousel.items.at(-1)}
           {Carousel.items.map((Item) => Item)}
