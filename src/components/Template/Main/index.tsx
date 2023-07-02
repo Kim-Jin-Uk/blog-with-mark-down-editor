@@ -21,7 +21,14 @@ const Main = () => {
         ></NavWithButton>
         <section style={{ flex: 1 }}>
           <article>
-            <Carousel />
+            <Carousel
+              items={[
+                <div key={1}>Item1</div>,
+                <div key={2}>Item2</div>,
+                <div key={3}>Item3</div>,
+              ]}
+              height={80}
+            />
           </article>
           <section>Section</section>
         </section>
