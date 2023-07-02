@@ -1,23 +1,20 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent as ReactMouseMove,
-} from "react";
+import React, { useState, MouseEvent as ReactMouseMove } from "react";
 import { makeInfinityCarousel } from "./utils";
+import { useRefs, useStates } from "@/common/utils";
 
 const itemWidth = "(100vw - 484px)";
 
 const Carousel = () => {
-  const slider = useRef<null | HTMLDivElement>(null);
-  const container = useRef<null | HTMLDivElement>(null);
+  const [slider, container] = useRefs<null | HTMLDivElement>([null, null]);
+  const [startX, endX] = useRefs<number>([0, 0]);
+
   const [position, setPosition] = useState(1);
-  const [isClickable, setIsClickable] = useState(true);
-  const startX = useRef<number>(0);
-  const endX = useRef<number>(0);
-  const [isOver, setIsOver] = useState(false);
-  const [isMove, setIsMove] = useState(false);
-  const [isClick, setIsClick] = useState(false);
+  const [
+    [isClickable, setIsClickable],
+    [isOver, setIsOver],
+    [isMove, setIsMove],
+    [isClick, setIsClick],
+  ] = useStates<boolean>([true, false, false, false]);
 
   const Carousel = {
     items: [
@@ -118,6 +115,10 @@ const Carousel = () => {
     }, 500);
   };
 
+  /**
+   * 캐루셀 이동시 이벤트를 종료시키는 함수
+   * 상황에 따라 다음, 이전 아이템으로 이동시키거나 다시 원복한다
+   */
   const actionDone = () => {
     if (startX.current > endX.current + 20) move(true);
     else if (startX.current < endX.current - 20) move(false);
@@ -128,11 +129,16 @@ const Carousel = () => {
     }
   };
 
-  // TODO: 드래그 가능 영역에서만 mouse move 이벤트가 동작하도록 처리한다
-  const mouseEnter = (event: ReactMouseMove<HTMLDivElement>) => {
-    setIsOver(true); // 현재 드래그 가능 영역임을 표시
+  /**
+   * MouseEnter 이벤트 발생시 마우스가 캐루셀 영역에 위치함을 표시하는 함수
+   */
+  const mouseEnter = () => {
+    setIsOver(true);
   };
-  const mouseLeave = (event: ReactMouseMove<HTMLDivElement>) => {
+  /**
+   * MouseLeave 이벤트 발생시 마우스가 캐루셀 영역에 위치하지 않음을 표시하고 이동을 완료시키는 함수
+   */
+  const mouseLeave = () => {
     if (!slider.current) return;
 
     setIsOver(false);
@@ -141,22 +147,29 @@ const Carousel = () => {
     actionDone();
     setIsMove(false);
   };
-
-  // 웹 이벤트 핸들러
+  /**
+   * MouseMove 이벤트 발생시 캐루셀을 이동시키는 함수
+   */
   const mouseMove = (event: MouseEvent) => {
-    // 드래그 가능영역에서만 이벤트 발생
+    // 캐루셀 영역에서만 이벤트 발생
     if (!slider.current || !isOver) return;
     endX.current = event.clientX;
     slider.current.style.transform = `translateX(calc(-1 * ${itemWidth} * ${position} + ${
       event.clientX - startX.current
     }px))`;
   };
+  /**
+   * MouseDown 이벤트 발생시 mouseMove 핸들러를 등록해주고 이벤트 시작 위치를 표시하는 함수
+   */
   const mouseDown = (event: ReactMouseMove<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.onmousemove = mouseMove;
     startX.current = event.clientX;
     setIsMove(true);
   };
+  /**
+   * MouseUp 이벤트 발생시 mouseMove 핸들러를 삭제해주고 캐루셀 이동을 완료시키는 함수
+   */
   const mouseUp = (event: ReactMouseMove<HTMLDivElement>) => {
     if (!slider.current) return;
     slider.current.onmousemove = null;
