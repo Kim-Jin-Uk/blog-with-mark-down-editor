@@ -1,16 +1,17 @@
 import React from "react";
-const Follow = () => {
+import { LogoProps } from "./types";
+const Follow = ({ color = "black", width = 32, height = 32 }: LogoProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0,0,256,256"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       fillRule="nonzero"
     >
       <g
-        fill="#000000"
+        style={{ fill: color }}
         fillRule="nonzero"
         stroke="none"
         strokeWidth="1"
@@ -29,7 +30,7 @@ const Follow = () => {
         </g>
       </g>
       <g
-        fill="#000000"
+        style={{ fill: color }}
         fillRule="nonzero"
         stroke="none"
         strokeWidth="1"
