@@ -5,6 +5,12 @@
   font-size: $font-size-base;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 header {
   display: flex;
   border-bottom: 1px solid map-get($colors, "gray");
